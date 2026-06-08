@@ -1,0 +1,16 @@
+{
+    "agents": [
+        "opencode"
+    ],
+    "cloud": false,
+    "guidelines": true,
+    "mcp": true,
+    "nightwatch": false,
+    "sail": false,
+    "skills": [
+        "app-architecture",
+        "laravel-best-practices",
+        "pest-testing",
+        "tailwindcss-development"
+    ]
+}
