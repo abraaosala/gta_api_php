@@ -12,9 +12,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         parent::__construct(new User);
     }
 
-    public function findByUsername(string $username): ?User
+    public function findByEmail(string $email): ?User
     {
-        return $this->model->where('username', $username)->first();
+        return $this->model->where('email', $email)->first();
     }
 
     public function updateLastLogin(User $user): void

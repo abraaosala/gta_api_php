@@ -16,25 +16,8 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
-
-        \Log::info('Login attempt', [
-            'all' => $request->all(),
-            'validated' => $request->validated(),
-            'content_type' => $request->header('Content-Type'),
-            'accept' => $request->header('Accept'),
-        ]);
-
-        if ($request->missing('username') || $request->missing('password')) {
-            \Log::warning('Login missing fields', [
-                'has_username' => $request->has('username'),
-                'has_password' => $request->has('password'),
-                'all' => $request->all(),
-                'json' => $request->json()->all(),
-            ]);
-        }
-
         $result = $this->authService->login(
-            $request->validated('username'),
+            $request->validated('email'),
             $request->validated('password'),
         );
 

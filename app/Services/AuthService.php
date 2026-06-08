@@ -14,9 +14,9 @@ class AuthService implements AuthServiceInterface
         protected UserRepositoryInterface $userRepository,
     ) {}
 
-    public function login(string $username, string $password): array
+    public function login(string $email, string $password): array
     {
-        $user = $this->userRepository->findByUsername($username);
+        $user = $this->userRepository->findByEmail($email);
 
         if (! $user || ! $user->active || ! Hash::check($password, $user->password)) {
             throw new AuthenticationException('Invalid credentials');
