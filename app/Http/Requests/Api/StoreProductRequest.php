@@ -16,6 +16,7 @@ class StoreProductRequest extends FormRequest
             'image' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'specs' => ['nullable', 'array'],
+            'in_stock' => ['nullable', 'boolean'],
         ];
     }
 }

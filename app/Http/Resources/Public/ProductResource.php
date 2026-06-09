@@ -18,6 +18,7 @@ class ProductResource extends JsonResource
             'image' => $this->image,
             'description' => $this->description,
             'specs' => $this->specs,
+            'in_stock' => $this->in_stock,
         ];
     }
 }

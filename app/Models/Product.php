@@ -19,6 +19,7 @@ class Product extends Model
         'image',
         'description',
         'specs',
+        'in_stock',
     ];
 
     protected function casts(): array
@@ -27,6 +28,7 @@ class Product extends Model
             'price' => 'decimal:2',
             'original_price' => 'decimal:2',
             'specs' => 'array',
+            'in_stock' => 'boolean',
         ];
     }
 }
