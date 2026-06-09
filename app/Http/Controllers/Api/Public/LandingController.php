@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Public\BrandResource;
 use App\Http\Resources\Public\BusinessInfoResource;
-use App\Http\Resources\Public\FAQResource;
+use App\Http\Resources\Public\FaqResource;
 use App\Http\Resources\Public\FeatureResource;
 use App\Http\Resources\Public\GalleryResource;
 use App\Http\Resources\Public\ProcessStepResource;
@@ -34,7 +34,7 @@ class LandingController extends Controller
             'services' => ServiceResource::collection(Service::all()),
             'products' => ProductResource::collection(Product::all()),
             'testimonials' => TestimonialResource::collection(Testimonial::all()),
-            'faqs' => FAQResource::collection(Faq::orderBy('sort_order')->get()),
+            'faqs' => FaqResource::collection(Faq::orderBy('sort_order')->get()),
             'brands' => BrandResource::collection(Brand::all()),
             'process' => ProcessStepResource::collection(ProcessStep::orderBy('step')->get()),
             'features' => FeatureResource::collection(Feature::where('active', true)->orderBy('sort_order')->get()),
