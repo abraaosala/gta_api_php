@@ -17,7 +17,7 @@ class SettingsController extends Controller
     public function update(Request $request): JsonResponse
     {
         $data = $request->validate([
-            '*' => ['required', 'string'],
+            '*' => ['nullable', 'string'],
         ]);
 
         foreach ($data as $key => $value) {
