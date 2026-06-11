@@ -12,7 +12,7 @@ class FeatureController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Feature::orderBy('sort_order')->get());
+        return response()->json(Feature::orderBy('sort_order')->paginate(12));
     }
 
     public function show(Feature $feature): JsonResponse

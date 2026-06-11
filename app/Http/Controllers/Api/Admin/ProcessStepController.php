@@ -12,7 +12,7 @@ class ProcessStepController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(ProcessStep::all());
+        return response()->json(ProcessStep::latest()->paginate(12));
     }
 
     public function show(ProcessStep $processStep): JsonResponse

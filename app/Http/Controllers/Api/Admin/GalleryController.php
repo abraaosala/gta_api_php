@@ -12,7 +12,7 @@ class GalleryController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Gallery::orderBy('sort_order')->get());
+        return response()->json(Gallery::orderBy('sort_order')->paginate(12));
     }
 
     public function show(Gallery $gallery): JsonResponse

@@ -12,7 +12,7 @@ class EstimatorDeviceController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(EstimatorDevice::all());
+        return response()->json(EstimatorDevice::latest()->paginate(12));
     }
 
     public function show(EstimatorDevice $estimatorDevice): JsonResponse

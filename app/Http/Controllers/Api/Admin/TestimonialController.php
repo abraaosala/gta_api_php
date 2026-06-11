@@ -12,7 +12,7 @@ class TestimonialController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Testimonial::all());
+        return response()->json(Testimonial::latest()->paginate(12));
     }
 
     public function show(Testimonial $testimonial): JsonResponse

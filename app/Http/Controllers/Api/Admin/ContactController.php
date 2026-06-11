@@ -10,7 +10,7 @@ class ContactController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Contact::all());
+        return response()->json(Contact::latest()->paginate(12));
     }
 
     public function show(Contact $contact): JsonResponse

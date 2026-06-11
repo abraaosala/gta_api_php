@@ -12,7 +12,7 @@ class FaqController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Faq::all());
+        return response()->json(Faq::latest()->paginate(12));
     }
 
     public function show(Faq $faq): JsonResponse

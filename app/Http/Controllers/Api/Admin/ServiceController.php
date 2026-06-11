@@ -12,7 +12,7 @@ class ServiceController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Service::all());
+        return response()->json(Service::latest()->paginate(12));
     }
 
     public function show(Service $service): JsonResponse

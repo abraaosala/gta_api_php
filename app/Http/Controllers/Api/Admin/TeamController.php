@@ -12,7 +12,7 @@ class TeamController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Team::orderBy('sort_order')->get());
+        return response()->json(Team::orderBy('sort_order')->paginate(12));
     }
 
     public function show(Team $team): JsonResponse

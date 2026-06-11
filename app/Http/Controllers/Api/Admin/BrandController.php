@@ -12,7 +12,7 @@ class BrandController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Brand::all());
+        return response()->json(Brand::latest()->paginate(12));
     }
 
     public function show(Brand $brand): JsonResponse

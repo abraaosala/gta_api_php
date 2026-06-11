@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(User::all());
+        return response()->json(User::latest()->paginate(12));
     }
 
     public function show(User $user): JsonResponse

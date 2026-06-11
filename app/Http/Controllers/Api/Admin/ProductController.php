@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Product::all());
+        return response()->json(Product::latest()->paginate(12));
     }
 
     public function show(Product $product): JsonResponse
@@ -22,14 +22,22 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request): JsonResponse
     {
-        $product = Product::create($request->validated());
+        $data = $request->validated();
+        if (empty($data['image'])) {
+            unset($data['image']);
+        }
+        $product = Product::create($data);
 
         return response()->json($product, 201);
     }
 
     public function update(UpdateProductRequest $request, Product $product): JsonResponse
     {
-        $product->update($request->validated());
+        $data = $request->validated();
+        if (empty($data['image'])) {
+            unset($data['image']);
+        }
+        $product->update($data);
 
         return response()->json($product);
     }
