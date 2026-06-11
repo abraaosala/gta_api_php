@@ -7,12 +7,19 @@ use App\Http\Requests\Api\StoreEstimatorIssueRequest;
 use App\Http\Requests\Api\UpdateEstimatorIssueRequest;
 use App\Models\EstimatorIssue;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class EstimatorIssueController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(EstimatorIssue::all());
+        $query = EstimatorIssue::latest();
+
+        if ($request->filled('device_id')) {
+            $query->where('device_id', $request->device_id);
+        }
+
+        return response()->json($query->paginate(12));
     }
 
     public function show(EstimatorIssue $estimatorIssue): JsonResponse
