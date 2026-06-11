@@ -37,4 +37,11 @@ class AuthController extends Controller
             $this->authService->me($request->user()),
         );
     }
+
+    public function refresh(Request $request): JsonResponse
+    {
+        $result = $this->authService->refresh($request->user());
+
+        return response()->json($result);
+    }
 }

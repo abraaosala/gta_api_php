@@ -41,4 +41,16 @@ class AuthService implements AuthServiceInterface
     {
         return $user;
     }
+
+    public function refresh(User $user): array
+    {
+        $user->currentAccessToken()->delete();
+
+        $token = $user->createToken('auth-token')->plainTextToken;
+
+        return [
+            'accessToken' => $token,
+            'user' => $user->only(['id', 'username', 'name', 'display_name', 'role']),
+        ];
+    }
 }
