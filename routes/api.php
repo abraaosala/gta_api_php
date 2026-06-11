@@ -16,20 +16,8 @@ use App\Http\Controllers\Api\Admin\TeamController as AdminTeamController;
 use App\Http\Controllers\Api\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\Public\BrandController;
-use App\Http\Controllers\Api\Public\BusinessInfoController;
 use App\Http\Controllers\Api\Public\ContactController;
-use App\Http\Controllers\Api\Public\EstimatorController;
-use App\Http\Controllers\Api\Public\FaqController;
-use App\Http\Controllers\Api\Public\FeatureController;
-use App\Http\Controllers\Api\Public\GalleryController;
 use App\Http\Controllers\Api\Public\LandingController;
-use App\Http\Controllers\Api\Public\ProcessStepController;
-use App\Http\Controllers\Api\Public\ProductController;
-use App\Http\Controllers\Api\Public\ServiceController;
-use App\Http\Controllers\Api\Public\SettingsController;
-use App\Http\Controllers\Api\Public\TeamController;
-use App\Http\Controllers\Api\Public\TestimonialController;
 use App\Http\Controllers\Api\UploadController;
 use Illuminate\Support\Facades\Route;
 
@@ -83,25 +71,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Public
 Route::prefix('public')->group(function () {
-    Route::get('features', [FeatureController::class, 'index']);
-    Route::get('services', [ServiceController::class, 'index']);
-    Route::get('services/{service}', [ServiceController::class, 'show']);
-    Route::get('products', [ProductController::class, 'index']);
-    Route::get('products/{product}', [ProductController::class, 'show']);
-    Route::get('testimonials', [TestimonialController::class, 'index']);
-    Route::get('testimonials/{testimonial}', [TestimonialController::class, 'show']);
-    Route::get('faqs', [FaqController::class, 'index']);
-    Route::get('faqs/{faq}', [FaqController::class, 'show']);
-    Route::get('gallery', [GalleryController::class, 'index']);
-    Route::get('brands', [BrandController::class, 'index']);
-    Route::get('brands/{brand}', [BrandController::class, 'show']);
-    Route::get('team', [TeamController::class, 'index']);
     Route::get('landing', LandingController::class);
-    Route::get('process', [ProcessStepController::class, 'index']);
-    Route::get('process/{processStep}', [ProcessStepController::class, 'show']);
-    Route::get('estimator/devices', [EstimatorController::class, 'index']);
-    Route::get('estimator/devices/{estimatorDevice}', [EstimatorController::class, 'show']);
-    Route::get('info', [BusinessInfoController::class, 'show']);
-    Route::get('settings', [SettingsController::class, 'index']);
     Route::post('contacts', [ContactController::class, 'store']);
 });
