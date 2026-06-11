@@ -11,6 +11,8 @@ class UpdateEstimatorIssueRequest extends FormRequest
         return [
             'device_id' => ['sometimes', 'exists:estimator_devices,id'],
             'name' => ['sometimes', 'string', 'max:255'],
+            'base_price' => ['nullable', 'numeric', 'min:0'],
+            'estimated_time' => ['nullable', 'string', 'max:100'],
             'price_multiplier' => ['sometimes', 'numeric', 'min:0'],
         ];
     }

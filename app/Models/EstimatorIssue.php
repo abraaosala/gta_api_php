@@ -15,6 +15,8 @@ class EstimatorIssue extends Model
     protected $fillable = [
         'device_id',
         'name',
+        'base_price',
+        'estimated_time',
         'price_multiplier',
     ];
 
@@ -23,6 +25,19 @@ class EstimatorIssue extends Model
         return [
             'price_multiplier' => 'decimal:2',
         ];
+    }
+
+    protected $appends = ['local_price'];
+
+    public function getLocalPriceAttribute(): float
+    {
+        if ($this->base_price !== null) {
+            return (float) $this->base_price;
+        }
+
+        $device = $this->relationLoaded('device') ? $this->device : $this->device()->first();
+
+        return (float) ($device?->base_price ?? 0) * (float) ($this->price_multiplier ?? 1);
     }
 
     public function device(): BelongsTo
