@@ -12,6 +12,11 @@ class UploadController extends Controller
     {
         $request->validate([
             'file' => ['required', 'file', 'mimes:jpeg,png,webp,gif', 'max:5120'],
+        ], [
+            'file.required' => 'Nenhum ficheiro enviado.',
+            'file.file' => 'O ficheiro enviado é inválido.',
+            'file.mimes' => 'Formato não suportado. Use JPEG, PNG, WebP ou GIF.',
+            'file.max' => 'Ficheiro muito grande. O limite é 5MB.',
         ]);
 
         $path = $request->file('file')->store('uploads', 'public');
