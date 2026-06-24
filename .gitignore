@@ -5,6 +5,7 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
+/.agents/git-workflow-skill
 /.codex
 /.cursor/
 /.idea
