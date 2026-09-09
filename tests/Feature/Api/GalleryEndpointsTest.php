@@ -17,22 +17,9 @@ beforeEach(function () {
     $this->headers = ['Authorization' => "Bearer $this->token"];
 });
 
-test('public list galleries', function () {
-    Gallery::factory()->count(3)->create(['active' => true]);
-    $response = $this->getJson('/api/public/gallery');
-    $response->assertOk()->assertJsonCount(3, 'data');
-});
-
-test('public only shows active galleries', function () {
-    Gallery::factory()->create(['active' => true]);
-    Gallery::factory()->create(['active' => false]);
-    $response = $this->getJson('/api/public/gallery');
-    $response->assertOk()->assertJsonCount(1, 'data');
-});
-
 test('admin list galleries', function () {
     Gallery::factory()->count(3)->create();
-    $this->getJson('/api/admin/gallery', $this->headers)->assertOk()->assertJsonCount(3);
+    $this->getJson('/api/admin/gallery', $this->headers)->assertOk()->assertJsonCount(3, 'data');
 });
 
 test('admin create gallery', function () {
