@@ -1,0 +1,108 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+          tools: composer:v2, pint
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: --no-progress
+
+      - name: Check code style
+        run: vendor/bin/pint --test
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+          extensions: mbstring, pdo_sqlite, dom, fileinfo, xml, curl, gd
+          tools: composer:v2
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run tests
+        run: php artisan test --compact
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency: deploy
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script_stop: true
+          script: |
+            set -e
+            cd /home/u634834160/domains/gtatech.ao/public_html/api/gta
+
+            export COMPOSER_PROCESS_TIMEOUT=0
+
+            git pull origin main
+
+            composer install --no-dev --optimize-autoloader --no-interaction
+
+            [ -L public/storage ] || ln -s "$PWD/storage/app/public" "$PWD/public/storage"
+
+            php artisan migrate --force
+
+            php artisan route:cache
+            php artisan view:cache
+
+            php artisan queue:restart 2>/dev/null || true
+
+      - name: Health check pós-deploy
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" --max-time 30 https://api.gtatech.ao/api/)
+          if [ "$code" != "200" ]; then
+            echo "Health check falhou: HTTP $code"
+            exit 1
+          fi
+          echo "API OK (HTTP $code)"
