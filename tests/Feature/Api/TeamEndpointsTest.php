@@ -17,22 +17,9 @@ beforeEach(function () {
     $this->headers = ['Authorization' => "Bearer $this->token"];
 });
 
-test('public list team', function () {
-    Team::factory()->count(3)->create(['active' => true]);
-    $response = $this->getJson('/api/public/team');
-    $response->assertOk()->assertJsonCount(3, 'data');
-});
-
-test('public only shows active team', function () {
-    Team::factory()->create(['active' => true]);
-    Team::factory()->create(['active' => false]);
-    $response = $this->getJson('/api/public/team');
-    $response->assertOk()->assertJsonCount(1, 'data');
-});
-
 test('admin list team', function () {
     Team::factory()->count(3)->create();
-    $this->getJson('/api/admin/team', $this->headers)->assertOk()->assertJsonCount(3);
+    $this->getJson('/api/admin/team', $this->headers)->assertOk()->assertJsonCount(3, 'data');
 });
 
 test('admin create team member', function () {

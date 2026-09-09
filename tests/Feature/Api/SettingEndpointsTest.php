@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\BusinessInfo;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,11 +18,12 @@ beforeEach(function () {
     $this->headers = ['Authorization' => 'Bearer '.$this->token];
 });
 
-test('public list settings', function () {
+test('landing exposes settings', function () {
+    BusinessInfo::factory()->create(['id' => 'main']);
     Setting::create(['key' => 'test_key', 'value' => 'test_value']);
-    $response = $this->getJson('/api/public/settings');
+    $response = $this->getJson('/api/public/landing');
     $response->assertOk();
-    $response->assertJson(['test_key' => 'test_value']);
+    $response->assertJsonPath('settings.test_key', 'test_value');
 });
 
 test('admin list settings', function () {

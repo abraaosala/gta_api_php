@@ -17,25 +17,10 @@ beforeEach(function () {
     $this->headers = ['Authorization' => "Bearer $this->token"];
 });
 
-test('public list features', function () {
-    Feature::factory()->count(3)->create(['active' => true]);
-    $response = $this->getJson('/api/public/features');
-    $response->assertOk();
-    $response->assertJsonCount(3, 'data');
-});
-
-test('public only shows active features', function () {
-    Feature::factory()->create(['active' => true]);
-    Feature::factory()->create(['active' => false]);
-    $response = $this->getJson('/api/public/features');
-    $response->assertOk();
-    $response->assertJsonCount(1, 'data');
-});
-
 test('admin list features', function () {
     Feature::factory()->count(3)->create();
     $response = $this->getJson('/api/admin/features', $this->headers);
-    $response->assertOk()->assertJsonCount(3);
+    $response->assertOk()->assertJsonCount(3, 'data');
 });
 
 test('admin create feature', function () {

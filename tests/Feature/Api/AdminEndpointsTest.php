@@ -32,7 +32,7 @@ beforeEach(function () {
 // Services CRUD
 test('admin list services', function () {
     Service::factory()->count(3)->create();
-    $this->getJson('/api/admin/services', $this->headers)->assertOk()->assertJsonCount(3);
+    $this->getJson('/api/admin/services', $this->headers)->assertOk()->assertJsonCount(3, 'data');
 });
 
 test('admin create service', function () {
@@ -87,7 +87,7 @@ test('admin update password', function () {
 // Contact management
 test('admin list contacts', function () {
     Contact::factory()->count(3)->create();
-    $this->getJson('/api/admin/contacts', $this->headers)->assertOk()->assertJsonCount(3);
+    $this->getJson('/api/admin/contacts', $this->headers)->assertOk()->assertJsonCount(3, 'data');
 });
 
 test('admin delete contact', function () {
